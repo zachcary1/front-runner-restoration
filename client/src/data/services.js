@@ -1,6 +1,5 @@
 export const services = [
   {
-    number: '01',
     slug: 'water-damage',
     name: 'Water Damage',
     icon: 'droplet',
@@ -20,7 +19,6 @@ export const services = [
     image: '/water-damage.png',
   },
   {
-    number: '02',
     slug: 'fire-smoke',
     name: 'Fire & Smoke',
     icon: 'flame',
@@ -40,7 +38,6 @@ export const services = [
     image: '/fire-smoke.png',
   },
   {
-    number: '03',
     slug: 'mold-prevention',
     name: 'Mold Prevention',
     icon: 'mold',
@@ -60,7 +57,6 @@ export const services = [
     image: '/mold.png',
   },
   {
-    number: '04',
     slug: 'storm-damage',
     name: 'Storm Damage',
     icon: 'storm',
@@ -80,7 +76,6 @@ export const services = [
     image: '/storm.png',
   },
   {
-    number: '05',
     slug: 'emergency-response',
     name: 'Emergency Response',
     icon: 'zap',
@@ -100,7 +95,6 @@ export const services = [
     image: '/247.png',
   },
   {
-    number: '06',
     slug: 'dry-ice-blasting',
     name: 'Dry Ice Blasting',
     icon: 'snowflake',
