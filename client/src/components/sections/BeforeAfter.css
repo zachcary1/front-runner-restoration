@@ -1,0 +1,29 @@
+.before-after {
+  background: var(--bg-primary);
+}
+
+.before-after__heading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-3);
+  text-align: center;
+  max-width: 720px;
+  margin: 0 auto var(--space-6);
+}
+
+.before-after__heading h2 {
+  font-size: clamp(30px, 4vw, 44px);
+}
+
+.before-after__heading p {
+  color: var(--text-muted);
+  font-size: 16px;
+}
+
+.before-after__pane {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}

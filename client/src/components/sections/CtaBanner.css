@@ -1,0 +1,59 @@
+.cta-banner {
+  position: relative;
+  background: var(--accent-gold-banner);
+  color: #16130a;
+  overflow: hidden;
+  padding: var(--space-6) var(--space-4);
+}
+
+.cta-banner__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+}
+
+.cta-banner__message {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.cta-banner__icon {
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+}
+
+.cta-banner__headline {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 28px;
+  text-transform: uppercase;
+}
+
+.cta-banner__divider {
+  width: 1px;
+  height: 32px;
+  background: rgba(22, 19, 10, 0.35);
+}
+
+.cta-banner__label {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 14px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+@media (max-width: 640px) {
+  .cta-banner__inner {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .cta-banner__message {
+    flex-wrap: wrap;
+  }
+}

@@ -1,0 +1,16 @@
+.process-trio {
+  background: var(--bg-primary);
+  padding-top: 0;
+}
+
+.process-trio__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-4);
+}
+
+@media (max-width: 768px) {
+  .process-trio__grid {
+    grid-template-columns: 1fr;
+  }
+}

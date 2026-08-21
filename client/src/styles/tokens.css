@@ -1,0 +1,51 @@
+:root {
+  /* Color */
+  --bg-primary: #0d0d0d;
+  --bg-secondary: #161616;
+  --bg-light: #f2efe9;
+
+  --accent-gold: #c9a15a;
+  --accent-gold-hover: #d9b56e;
+  --accent-gold-banner: #c9a15a;
+
+  --text-primary: #ffffff;
+  --text-primary-on-light: #111111;
+  --text-muted: #9a9a9a;
+  --text-muted-on-light: #5c5c5c;
+
+  --border-subtle: rgba(255, 255, 255, 0.08);
+  --border-subtle-on-light: rgba(17, 17, 17, 0.12);
+  --border-gold: rgba(201, 161, 90, 0.4);
+
+  /* Type */
+  --font-display: 'Barlow Condensed', 'Oswald', sans-serif;
+  --font-body: 'Inter', sans-serif;
+
+  /* Spacing scale */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 16px;
+  --space-4: 24px;
+  --space-5: 32px;
+  --space-6: 48px;
+  --space-7: 64px;
+  --space-8: 96px;
+
+  /* Radius */
+  --radius-sm: 2px;
+  --radius-md: 4px;
+
+  /* Layout */
+  --max-width: 1280px;
+  /* Inner row height; .nav's own 1px border-bottom is always rendered
+     (even "transparent"), so the nav's true total height is 1px taller
+     than this — see --nav-height below for that total. */
+  --nav-content-height: 84px;
+  /* .nav's actual rendered height (content + border-bottom), for
+     anything that needs to sit flush against or clear the nav: sticky
+     offsets, min-height calcs, scroll-margin-top. */
+  --nav-height: 85px;
+
+  /* Motion */
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+}

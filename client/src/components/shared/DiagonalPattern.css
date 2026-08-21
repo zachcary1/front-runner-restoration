@@ -1,0 +1,39 @@
+.diagonal-pattern {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.diagonal-pattern--light-on-dark {
+  background-image: repeating-linear-gradient(
+    -45deg,
+    rgba(255, 255, 255, 0.08) 0,
+    rgba(255, 255, 255, 0.08) 1px,
+    transparent 1px,
+    transparent 14px
+  );
+  opacity: 0.5;
+}
+
+.diagonal-pattern--dark-on-gold {
+  background-image: repeating-linear-gradient(
+    -45deg,
+    rgba(13, 13, 13, 0.18) 0,
+    rgba(13, 13, 13, 0.18) 1px,
+    transparent 1px,
+    transparent 14px
+  );
+  opacity: 0.6;
+}
+
+.diagonal-pattern--gold-on-dark {
+  background-image: repeating-linear-gradient(
+    -45deg,
+    rgba(201, 161, 90, 0.15) 0,
+    rgba(201, 161, 90, 0.15) 1px,
+    transparent 1px,
+    transparent 14px
+  );
+  opacity: 0.6;
+}
