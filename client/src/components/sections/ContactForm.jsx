@@ -16,9 +16,20 @@ const INITIAL_FORM = {
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+function formatPhoneNumber(value) {
+  let digits = value.replace(/\D/g, '');
+  if (digits.length === 11 && digits.startsWith('1')) {
+    digits = digits.slice(1);
+  }
+  digits = digits.slice(0, 10);
+
+  if (digits.length < 4) return digits.length ? `(${digits}` : '';
+  if (digits.length < 7) return `(${digits.slice(0, 3)}) ${digits.slice(3)}`;
+  return `(${digits.slice(0, 3)}) ${digits.slice(3, 6)}-${digits.slice(6)}`;
+}
+
 function isValidPhone(value) {
-  const digits = value.replace(/\D/g, '');
-  return digits.length === 10 || (digits.length === 11 && digits.startsWith('1'));
+  return value.replace(/\D/g, '').length === 10;
 }
 
 function validateField(name, value) {
@@ -42,9 +53,10 @@ export default function ContactForm() {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setForm((f) => ({ ...f, [name]: value }));
+    const nextValue = name === 'phone' ? formatPhoneNumber(value) : value;
+    setForm((f) => ({ ...f, [name]: nextValue }));
     if (touched[name]) {
-      setFieldErrors((prev) => ({ ...prev, [name]: validateField(name, value) }));
+      setFieldErrors((prev) => ({ ...prev, [name]: validateField(name, nextValue) }));
     }
   };
 
@@ -160,6 +172,8 @@ export default function ContactForm() {
               <input
                 type="tel"
                 name="phone"
+                inputMode="numeric"
+                placeholder="(555) 123-4567"
                 value={form.phone}
                 onChange={handleChange}
                 onBlur={handleBlur}
