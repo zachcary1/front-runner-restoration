@@ -1,19 +1,42 @@
 import { Router } from 'express';
-import nodemailer from 'nodemailer';
 
 const router = Router();
 
-function buildTransport() {
-  if (!process.env.SMTP_HOST) return null;
-  return nodemailer.createTransport({
-    host: process.env.SMTP_HOST,
-    port: Number(process.env.SMTP_PORT) || 587,
-    secure: process.env.SMTP_SECURE === 'true',
-    auth: {
-      user: process.env.SMTP_USER,
-      pass: process.env.SMTP_PASS,
+async function sendViaResend({ firstName, lastName, email, phone, service, message }) {
+  const apiKey = process.env.RESEND_API_KEY;
+  const recipient = process.env.CONTACT_RECIPIENT;
+  if (!apiKey || !recipient) return false;
+
+  const from = process.env.RESEND_FROM || 'onboarding@resend.dev';
+
+  const res = await fetch('https://api.resend.com/emails', {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${apiKey}`,
+      'Content-Type': 'application/json',
     },
+    body: JSON.stringify({
+      from,
+      to: recipient,
+      reply_to: email,
+      subject: `New restoration request: ${service} — ${firstName} ${lastName}`,
+      text: [
+        `Name: ${firstName} ${lastName}`,
+        `Email: ${email}`,
+        `Phone: ${phone}`,
+        `Service needed: ${service}`,
+        '',
+        message,
+      ].join('\n'),
+    }),
   });
+
+  if (!res.ok) {
+    const body = await res.text();
+    throw new Error(`Resend API error (${res.status}): ${body}`);
+  }
+
+  return true;
 }
 
 router.post('/', async (req, res) => {
@@ -34,23 +57,8 @@ router.post('/', async (req, res) => {
   const submission = { firstName, lastName, email, phone, service, message: message || '' };
 
   try {
-    const transport = buildTransport();
-    if (transport && process.env.CONTACT_RECIPIENT) {
-      await transport.sendMail({
-        from: process.env.SMTP_USER,
-        to: process.env.CONTACT_RECIPIENT,
-        replyTo: email,
-        subject: `New restoration request: ${service} — ${firstName} ${lastName}`,
-        text: [
-          `Name: ${firstName} ${lastName}`,
-          `Email: ${email}`,
-          `Phone: ${phone}`,
-          `Service needed: ${service}`,
-          '',
-          submission.message,
-        ].join('\n'),
-      });
-    } else {
+    const sent = await sendViaResend(submission);
+    if (!sent) {
       console.log('[contact] New submission (email not configured):', submission);
     }
 

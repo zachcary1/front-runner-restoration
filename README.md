@@ -33,12 +33,9 @@ CLIENT_ORIGIN=http://localhost:5173
 GEMINI_API_KEY=
 GEMINI_MODEL=gemini-3.5-flash
 
-# Contact form email (optional — logs to console if omitted)
-SMTP_HOST=
-SMTP_PORT=587
-SMTP_SECURE=false
-SMTP_USER=
-SMTP_PASS=
+# Contact form email via Resend (https://resend.com) — optional, logs to console if omitted
+RESEND_API_KEY=
+RESEND_FROM=onboarding@resend.dev
 CONTACT_RECIPIENT=
 ```
 
