@@ -1,3 +1,4 @@
+import dns from 'dns';
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
@@ -6,6 +7,11 @@ import fs from 'fs';
 import { fileURLToPath } from 'url';
 import contactRouter from './routes/contact.js';
 import chatRouter from './routes/chat.js';
+
+// Railway's containers don't route IPv6, but Node 18+ resolves DNS "verbatim"
+// (IPv6 first when offered), which makes outbound SMTP to Gmail fail with
+// ENETUNREACH/ETIMEDOUT. Prefer IPv4 results app-wide.
+dns.setDefaultResultOrder('ipv4first');
 
 dotenv.config();
 
