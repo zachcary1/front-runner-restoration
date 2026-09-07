@@ -8,10 +8,24 @@ import { fileURLToPath } from 'url';
 import contactRouter from './routes/contact.js';
 import chatRouter from './routes/chat.js';
 
-// Railway's containers don't route IPv6, but Node 18+ resolves DNS "verbatim"
-// (IPv6 first when offered), which makes outbound SMTP to Gmail fail with
-// ENETUNREACH/ETIMEDOUT. Prefer IPv4 results app-wide.
+// Railway's containers report an IPv6 interface but can't actually route
+// outbound IPv6, which breaks outbound SMTP (e.g. Gmail) intermittently:
+// nodemailer resolves A/AAAA itself via dns.Resolver and picks a random
+// address from the combined list, and if that resolver fails it falls back
+// to plain dns.lookup(), which can also return an AAAA address first. Force
+// IPv4 on both paths app-wide.
 dns.setDefaultResultOrder('ipv4first');
+if (dns.Resolver) {
+  dns.Resolver.prototype.resolve6 = (hostname, callback) => callback(null, []);
+}
+const originalLookup = dns.lookup;
+dns.lookup = (hostname, options, callback) => {
+  if (typeof options === 'function') {
+    callback = options;
+    options = {};
+  }
+  return originalLookup(hostname, { ...options, family: 4 }, callback);
+};
 
 dotenv.config();
 
