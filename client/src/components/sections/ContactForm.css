@@ -137,6 +137,18 @@
   border-color: var(--accent-gold);
 }
 
+.contact__field input[aria-invalid='true'] {
+  border-color: #e08080;
+}
+
+.contact__field-error {
+  font-size: 12px;
+  font-weight: 400;
+  text-transform: none;
+  letter-spacing: normal;
+  color: #e08080;
+}
+
 .contact__submit {
   justify-content: center;
   width: 100%;

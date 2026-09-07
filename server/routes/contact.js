@@ -54,6 +54,12 @@ router.post('/', async (req, res) => {
     return res.status(400).json({ success: false, message: 'Please provide a valid email address.' });
   }
 
+  const phoneDigits = String(phone).replace(/\D/g, '');
+  const isValidPhone = phoneDigits.length === 10 || (phoneDigits.length === 11 && phoneDigits.startsWith('1'));
+  if (!isValidPhone) {
+    return res.status(400).json({ success: false, message: 'Please provide a valid phone number.' });
+  }
+
   const submission = { firstName, lastName, email, phone, service, message: message || '' };
 
   try {

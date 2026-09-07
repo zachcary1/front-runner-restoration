@@ -14,18 +14,57 @@ const INITIAL_FORM = {
   message: '',
 };
 
+const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+function isValidPhone(value) {
+  const digits = value.replace(/\D/g, '');
+  return digits.length === 10 || (digits.length === 11 && digits.startsWith('1'));
+}
+
+function validateField(name, value) {
+  if (name === 'email') {
+    if (!value) return 'Email is required.';
+    if (!EMAIL_PATTERN.test(value)) return 'Please enter a valid email address.';
+  }
+  if (name === 'phone') {
+    if (!value) return 'Phone number is required.';
+    if (!isValidPhone(value)) return 'Please enter a valid 10-digit phone number.';
+  }
+  return '';
+}
+
 export default function ContactForm() {
   const [form, setForm] = useState(INITIAL_FORM);
+  const [fieldErrors, setFieldErrors] = useState({});
+  const [touched, setTouched] = useState({});
   const [status, setStatus] = useState('idle'); // idle | submitting | success | error
   const [statusMessage, setStatusMessage] = useState('');
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm((f) => ({ ...f, [name]: value }));
+    if (touched[name]) {
+      setFieldErrors((prev) => ({ ...prev, [name]: validateField(name, value) }));
+    }
+  };
+
+  const handleBlur = (e) => {
+    const { name, value } = e.target;
+    setTouched((t) => ({ ...t, [name]: true }));
+    setFieldErrors((prev) => ({ ...prev, [name]: validateField(name, value) }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const emailError = validateField('email', form.email);
+    const phoneError = validateField('phone', form.phone);
+    if (emailError || phoneError) {
+      setFieldErrors((prev) => ({ ...prev, email: emailError, phone: phoneError }));
+      setTouched((t) => ({ ...t, email: true, phone: true }));
+      return;
+    }
+
     setStatus('submitting');
     setStatusMessage('');
 
@@ -110,8 +149,11 @@ export default function ContactForm() {
                 name="email"
                 value={form.email}
                 onChange={handleChange}
+                onBlur={handleBlur}
+                aria-invalid={Boolean(fieldErrors.email)}
                 required
               />
+              {fieldErrors.email && <span className="contact__field-error">{fieldErrors.email}</span>}
             </label>
             <label className="contact__field">
               <span>Phone</span>
@@ -120,8 +162,11 @@ export default function ContactForm() {
                 name="phone"
                 value={form.phone}
                 onChange={handleChange}
+                onBlur={handleBlur}
+                aria-invalid={Boolean(fieldErrors.phone)}
                 required
               />
+              {fieldErrors.phone && <span className="contact__field-error">{fieldErrors.phone}</span>}
             </label>
           </div>
 
